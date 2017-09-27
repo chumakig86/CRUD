@@ -1,12 +1,16 @@
 package com.crud.app.page;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -22,6 +26,7 @@ public class HomePage extends WebPage
 	private static final long serialVersionUID = 1L;
 	
 	private FeedbackPanel feedbackPanel;
+	Form<Void> searchform =null;
 
 	public HomePage(final PageParameters parameters)
 	{
@@ -57,7 +62,57 @@ public class HomePage extends WebPage
 				target.add(feedbackPanel);
 			}
 		});
+		searchform= new Form<Void>("searchform");
+
+		final Model<String> model = new Model<String>() {
+			private String location ="";
+			public String getObject() {
+				return location;
+			}
+
+			public void setObject(String location) {
+				this.location=location;
+			}
+
+		};
+
+		final TextField<String> code = new TextField("code",new Model<String>(""));
+
+		searchform.add(code);
+
+		final Label label = new Label("location", model);
+		label.setOutputMarkupId(true);
+		searchform.add(label);
+
+		AjaxButton ab=new AjaxButton("search") {
+			protected void onSubmit(AjaxRequestTarget target, Form form) {
+
+				if (target!=null)
+				{
+
+					String cyCode=form.getRequest().getRequestParameters().getParameterValue("code").toString();
+
+					model.setObject(getLocation(Integer.parseInt(cyCode)));
+
+					target.add(label);
+				}
+
+			}
+
+		};
+
+		searchform.add(ab);
+		add(searchform);
     }
+	private String getLocation(Integer cyCode)
+	{
+
+		HashMap<Integer,String> locations=new HashMap<Integer, String>();
+		locations.put(1, "USA");
+		locations.put(61,"Australia");
+		locations.put(91, "India");
+		return locations.get(cyCode);
+	}
 
 	private List<AbstractEditablePropertyColumn<Person, String>> getColumns()
 	{
@@ -92,4 +147,5 @@ public class HomePage extends WebPage
 		};
 		add(logout);
 	}
+
 }

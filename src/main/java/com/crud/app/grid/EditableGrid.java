@@ -30,15 +30,19 @@ public class EditableGrid<T, S> extends Panel
 		newCols.add(newActionsColumn());
 
 		add(buildForm(newCols, dataProvider, rowsPerPage, clazz));
+
 	}
 
 	private Component buildForm(final List<? extends IColumn<T, S>> columns, final IEditableDataProvider<T, S> dataProvider, long rowsPerPage, Class<T> clazz)
 	{
+
 		Form<T> form = new Form<T>("form");
 		form.setOutputMarkupId(true);
 		form.add(newDataTable(columns, dataProvider, rowsPerPage, clazz));
 		return form;
 	}
+
+
 
 	private Component newDataTable(final List<? extends IColumn<T, S>> columns, final IEditableDataProvider<T, S> dataProvider, long rowsPerPage, Class<T> clazz)
 	{			
