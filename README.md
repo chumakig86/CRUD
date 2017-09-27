@@ -3,4 +3,5 @@ Simple crud application using apache wicket framework.
 
 Prerequariments: tomcat, maven installed.
 
-run start.sh script to run application.
+Run start.sh script to run application.
+Open http://localhost:8080/
