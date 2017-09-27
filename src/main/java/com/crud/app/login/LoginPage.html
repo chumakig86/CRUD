@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+<head>
+    <title>Chumachenko CRUD</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+<div style="text-align:center">
+    <BR>
+    <h2>Welcome to CRUD!</h2>
+    <BR>
+    <form id="loginForm" method="post" wicket:id="loginForm">
+        <fieldset>
+            <h1>Please sign in!</h1>
+            <p>
+                <i>Username and password are both "test"</i>
+            </p>
+            <span>UserName: </span><input type="text" wicket:id="username" />
+            <BR>
+            <BR>
+            <span>Password: &nbsp;  </span><input type="password" wicket:id="password" />
+            <BR>
+            <p>
+                <input type="submit" name="Login" value="Login"/>
+            </p>
+        </fieldset>
+    </form>
+    <span wicket:id = "feedback" style="color:red"/>
+</div>
+</body>
+</html>
