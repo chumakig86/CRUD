@@ -6,6 +6,7 @@ import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 
+
 public abstract class AbstractEditablePropertyColumn<T, S> extends PropertyColumn<T, S> implements IEditableGridColumn<T>
 {
 
@@ -36,6 +37,7 @@ public abstract class AbstractEditablePropertyColumn<T, S> extends PropertyColum
 			FormComponent<T> editorComponent 	= provider.getEditableComponent();
 			editorComponent.setModel((IModel<T>) getDataModel(rowModel));
 			item.add(provider);
+
 		}
 		else 
 		{

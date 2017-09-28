@@ -1,5 +1,6 @@
 package com.crud.app.grid.column;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.TextField;
@@ -17,7 +18,8 @@ public class EditableTextFieldCellPanel<T, S> extends EditableCellPanel<T>
 		field.setOutputMarkupId(true);
 		field.setLabel(column.getDisplayModel());
 		addBehaviors(field);
-		add(field);	
+		add(field);
+
 	}
 
 	@SuppressWarnings("unchecked")
