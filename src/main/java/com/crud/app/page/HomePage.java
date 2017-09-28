@@ -76,13 +76,11 @@ public class HomePage extends WebPage
 
 		};
 
-		final TextField<String> code = new TextField("code",new Model<String>(""));
+		final TextField<String> code = new TextField("searchname",new Model<String>(""));
 
 		searchform.add(code);
 
-		final Label label = new Label("location", model);
-		label.setOutputMarkupId(true);
-		searchform.add(label);
+
 
 		AjaxButton ab=new AjaxButton("search") {
 			protected void onSubmit(AjaxRequestTarget target, Form form) {
@@ -90,11 +88,9 @@ public class HomePage extends WebPage
 				if (target!=null)
 				{
 
-					String cyCode=form.getRequest().getRequestParameters().getParameterValue("code").toString();
+					String search=form.getRequest().getRequestParameters().getParameterValue("searchname").toString();
 
-					model.setObject(getLocation(Integer.parseInt(cyCode)));
 
-					target.add(label);
 				}
 
 			}
@@ -126,12 +122,10 @@ public class HomePage extends WebPage
 	private List<Person> getPersons()
 	{
 		List<Person> persons = new ArrayList<Person>();
-		persons.add(new Person("Person1","12", "Address1"));
-		persons.add(new Person("Person2","13", "Address2"));
-		persons.add(new Person("Person3","13", "Address3"));
-		persons.add(new Person("Person4","13", "Address4"));
-		persons.add(new Person("Person5","13", "Address5"));
-		persons.add(new Person("Person6","13", "Address6"));
+		persons.add(new Person("Ivan","Vasilyevich", "Ivanov"));
+		persons.add(new Person("Vasya","Pupkin", "Petrovich"));
+		persons.add(new Person("Frunk","Kafka", "Valerianovich"));
+
 		return persons;
 	}
 	@Override
