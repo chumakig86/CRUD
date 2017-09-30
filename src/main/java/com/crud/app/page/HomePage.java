@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.crud.app.sql.User;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -21,12 +21,20 @@ import com.crud.app.grid.column.AbstractEditablePropertyColumn;
 import com.crud.app.grid.column.RequiredEditableTextFieldColumn;
 import com.crud.app.grid.provider.EditableListDataProvider;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.crud.app.sql.UserJDBCTemplate;
+
 public class HomePage extends WebPage
 {
 	private static final long serialVersionUID = 1L;
 	
 	private FeedbackPanel feedbackPanel;
 	Form<Void> searchform =null;
+	ApplicationContext context = new ClassPathXmlApplicationContext("com/crud/app/sql/Beans.xml");
+
+	UserJDBCTemplate userJDBCTemplate =
+			(UserJDBCTemplate)context.getBean("userJDBCTemplate");
 
 	public HomePage(final PageParameters parameters)
 	{
@@ -37,7 +45,7 @@ public class HomePage extends WebPage
 		
 		add(feedbackPanel);
 
-		add(new EditableGrid<Person, String>("grid", getColumns(), new EditableListDataProvider<Person, String>(getPersons()), 50, Person.class)
+		add(new EditableGrid<User, String>("grid", getColumns(), new EditableListDataProvider<User, String>(getUsers()), 50, User.class)
 		{
 			private static final long serialVersionUID = 1L;
 
@@ -52,12 +60,12 @@ public class HomePage extends WebPage
 				target.add(feedbackPanel);
 			}
 			@Override
-			protected void onDelete(AjaxRequestTarget target, IModel<Person> rowModel)
+			protected void onDelete(AjaxRequestTarget target, IModel<User> rowModel)
 			{
 				target.add(feedbackPanel);
 			}
 			@Override
-			protected void onSave(AjaxRequestTarget target, IModel<Person> rowModel)
+			protected void onSave(AjaxRequestTarget target, IModel<User> rowModel)
 			{
 				target.add(feedbackPanel);
 			}
@@ -110,23 +118,19 @@ public class HomePage extends WebPage
 		return locations.get(cyCode);
 	}
 
-	private List<AbstractEditablePropertyColumn<Person, String>> getColumns()
+	private List<AbstractEditablePropertyColumn<User, String>> getColumns()
 	{
-		List<AbstractEditablePropertyColumn<Person, String>> columns = new ArrayList<AbstractEditablePropertyColumn<Person, String>>();
-		columns.add(new RequiredEditableTextFieldColumn<Person, String>(new Model<String>("Name"), "name"));
-		columns.add(new RequiredEditableTextFieldColumn<Person, String>(new Model<String>("Surname"), "address"));
-		columns.add(new RequiredEditableTextFieldColumn<Person, String>(new Model<String>("Patronymic"), "age"));
+		List<AbstractEditablePropertyColumn<User, String>> columns = new ArrayList<AbstractEditablePropertyColumn<User, String>>();
+		columns.add(new RequiredEditableTextFieldColumn<User, String>(new Model<String>("Name"), "name"));
+		columns.add(new RequiredEditableTextFieldColumn<User, String>(new Model<String>("Surname"), "surname"));
+		columns.add(new RequiredEditableTextFieldColumn<User, String>(new Model<String>("Patronymic"), "patronymic"));
 		return columns;
 	}
 
-	private List<Person> getPersons()
+	private List<User> getUsers()
 	{
-		List<Person> persons = new ArrayList<Person>();
-		persons.add(new Person("Ivan","Vasilyevich", "Ivanov"));
-		persons.add(new Person("Vasya","Pupkin", "Petrovich"));
-		persons.add(new Person("Frunk","Kafka", "Valerianovich"));
-
-		return persons;
+		List<User> users = userJDBCTemplate.listUsers();
+		return users;
 	}
 	@Override
 	protected void onInitialize() {
