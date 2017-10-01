@@ -31,10 +31,7 @@ public class HomePage extends WebPage
 	
 	private FeedbackPanel feedbackPanel;
 	Form<Void> searchform =null;
-	ApplicationContext context = new ClassPathXmlApplicationContext("com/crud/app/sql/Beans.xml");
-
-	UserJDBCTemplate userJDBCTemplate =
-			(UserJDBCTemplate)context.getBean("userJDBCTemplate");
+	EditableListDataProvider provider = new EditableListDataProvider();
 
 	public HomePage(final PageParameters parameters)
 	{
@@ -45,7 +42,7 @@ public class HomePage extends WebPage
 		
 		add(feedbackPanel);
 
-		add(new EditableGrid<User, String>("grid", getColumns(), new EditableListDataProvider<User, String>(getUsers()), 50, User.class)
+		add(new EditableGrid<User, String>("grid", getColumns(), new EditableListDataProvider<User, String>(), 50, User.class)
 		{
 			private static final long serialVersionUID = 1L;
 
@@ -129,8 +126,7 @@ public class HomePage extends WebPage
 
 	private List<User> getUsers()
 	{
-		List<User> users = userJDBCTemplate.listUsers();
-		return users;
+		return provider.getData();
 	}
 	@Override
 	protected void onInitialize() {

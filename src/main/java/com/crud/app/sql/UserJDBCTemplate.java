@@ -14,7 +14,8 @@ public class UserJDBCTemplate implements UserDAO {
 
     @Override
     public void create(String name, String surname, String patronymic) {
-
+        String SQL = "insert into User (name, surname, patronymic) values (?, ?, ?)";
+        jdbcTemplateObject.update( SQL, name, surname, patronymic);
     }
 
     @Override
@@ -31,7 +32,8 @@ public class UserJDBCTemplate implements UserDAO {
 
     @Override
     public void delete(String name) {
-
+        String SQL = "delete from User where name = ?";
+        jdbcTemplateObject.update(SQL, name);
     }
 
     @Override

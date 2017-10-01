@@ -5,39 +5,39 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import com.crud.app.sql.User;
+import com.crud.app.sql.UserJDBCTemplate;
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.ISortState;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class EditableListDataProvider<T extends Serializable, S> implements IEditableDataProvider<T, S>
+public class EditableListDataProvider<T extends Serializable, S> implements IEditableDataProvider<User,S>
 {
 
 	private static final long serialVersionUID = 1L;
-	private final List<T> list;
-	
-	public EditableListDataProvider()
-	{
-		this(Collections.<T>emptyList());
+
+	ApplicationContext context = new ClassPathXmlApplicationContext("com/crud/app/sql/Beans.xml");
+
+	UserJDBCTemplate userJDBCTemplate =
+			(UserJDBCTemplate)context.getBean("userJDBCTemplate");
+	private List<User> list;
+
+	public EditableListDataProvider() {
+		list = userJDBCTemplate.listUsers();
 	}
 
-	public EditableListDataProvider(List<T> list)
+	public List<User> getData()
 	{
-		if (list == null)
-		{
-			throw new IllegalArgumentException("argument [list] cannot be null");
-		}
-		this.list = list;
-	}
-
-	protected List<T> getData()
-	{
+		list = userJDBCTemplate.listUsers();
 		return list;
 	}
 
 	@Override
-	public Iterator<? extends T> iterator(final long first, final long count)
+	public Iterator<? extends User> iterator(final long first, final long count)
 	{
-		List<T> list = getData();
+		List<User> list = getData();
 
 		long toIndex = first + count;
 		if (toIndex > list.size())
@@ -54,9 +54,9 @@ public class EditableListDataProvider<T extends Serializable, S> implements IEdi
 	}
 
 	@Override
-	public IModel<T> model(T object)
+	public IModel<User> model(User object)
 	{
-		return new Model<T>(object);
+		return new Model<User>(object);
 	}
 
 	@Override
@@ -65,15 +65,18 @@ public class EditableListDataProvider<T extends Serializable, S> implements IEdi
 	}
 
 	@Override
-	public void add(T item)
+	public void add(User item)
 	{
-		list.add(item);		
+		userJDBCTemplate.create(item.getName(), item.getSurname(), item.getPatronymic());
+		getData();
+
 	}
 
 	@Override
-	public void remove(T item)
+	public void remove(User item)
 	{
-		list.remove(item);
+		userJDBCTemplate.delete(item.getName());
+		getData();
 	}
 
 	@Override
