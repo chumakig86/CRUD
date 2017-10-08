@@ -1,7 +1,6 @@
 package com.crud.app.page;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import com.crud.app.sql.User;
@@ -21,9 +20,7 @@ import com.crud.app.grid.column.AbstractEditablePropertyColumn;
 import com.crud.app.grid.column.RequiredEditableTextFieldColumn;
 import com.crud.app.grid.provider.EditableListDataProvider;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import com.crud.app.sql.UserJDBCTemplate;
+
 
 public class HomePage extends WebPage
 {
