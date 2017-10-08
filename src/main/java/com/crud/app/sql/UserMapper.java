@@ -7,6 +7,7 @@ import org.springframework.lang.Nullable;
 public class UserMapper implements RowMapper <User> {
     public User mapRow(ResultSet rs, int rowNum) throws SQLException {
         User User = new User();
+        User.setId(rs.getInt("id"));
         User.setName(rs.getString("name"));
         User.setSurname(rs.getString("surname"));
         User.setPatronymic(rs.getString("patronymic"));

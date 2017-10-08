@@ -2,6 +2,9 @@ package com.crud.app.grid.column;
 
 import com.crud.app.grid.component.EditableDataTable;
 import com.crud.app.grid.component.EditableGridSubmitLink;
+import com.crud.app.grid.provider.EditableListDataProvider;
+import com.crud.app.sql.User;
+import com.crud.app.sql.UserJDBCTemplate;
 import org.apache.wicket.MetaDataKey;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxCallListener;
@@ -14,9 +17,12 @@ import org.apache.wicket.markup.repeater.Item;
 
 import com.crud.app.grid.model.GridOperationData;
 import com.crud.app.grid.model.OperationType;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public abstract class EditableGridActionsPanel<T> extends Panel
 {
+	EditableListDataProvider provider = new EditableListDataProvider();
 	public final static MetaDataKey<Boolean> EDITING = new MetaDataKey<Boolean>()
 	{
 		private static final long serialVersionUID 	= 1L;
@@ -58,6 +64,8 @@ public abstract class EditableGridActionsPanel<T> extends Panel
 			protected void onSuccess(AjaxRequestTarget target)
 			{
 				rowItem.setMetaData(EDITING, Boolean.FALSE);
+				User u = (User) rowItem.getModelObject();
+				provider.userJDBCTemplate.update(u.getId(),u.getName(), u.getSurname(), u.getPatronymic());
 				send(getPage(), Broadcast.BREADTH, rowItem);
 				target.add(rowItem);
 				onSave(target);

@@ -39,5 +39,5 @@ public interface UserDAO {
      * This is the method to be used to update
      * a record into the User table.
      */
-    public void update(String name, String surname, String patronymic);
+    public void update(Integer id, String name, String surname, String patronymic);
 }

@@ -37,7 +37,8 @@ public class UserJDBCTemplate implements UserDAO {
     }
 
     @Override
-    public void update(String name, String surname, String patronymic) {
-
+    public void update(Integer id, String name, String surname, String patronymic) {
+        String SQL = "update User set name= ?, surname = ?, patronymic = ?  where id = ?";
+        jdbcTemplateObject.update(SQL, name, surname, patronymic, id);
     }
 }

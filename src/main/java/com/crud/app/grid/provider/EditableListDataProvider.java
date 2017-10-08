@@ -20,7 +20,7 @@ public class EditableListDataProvider<T extends Serializable, S> implements IEdi
 
 	ApplicationContext context = new ClassPathXmlApplicationContext("com/crud/app/sql/Beans.xml");
 
-	UserJDBCTemplate userJDBCTemplate =
+	public UserJDBCTemplate userJDBCTemplate =
 			(UserJDBCTemplate)context.getBean("userJDBCTemplate");
 	private List<User> list;
 
@@ -78,6 +78,7 @@ public class EditableListDataProvider<T extends Serializable, S> implements IEdi
 		userJDBCTemplate.delete(item.getName());
 		getData();
 	}
+
 
 	@Override
 	public ISortState<S> getSortState() {
