@@ -22,7 +22,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public abstract class EditableGridActionsPanel<T> extends Panel
 {
-	EditableListDataProvider provider = new EditableListDataProvider();
+	ApplicationContext context = new ClassPathXmlApplicationContext("com/crud/app/sql/Beans.xml");
+
+	UserJDBCTemplate userJDBCTemplate =
+			(UserJDBCTemplate)context.getBean("userJDBCTemplate");
 	public final static MetaDataKey<Boolean> EDITING = new MetaDataKey<Boolean>()
 	{
 		private static final long serialVersionUID 	= 1L;
@@ -65,7 +68,7 @@ public abstract class EditableGridActionsPanel<T> extends Panel
 			{
 				rowItem.setMetaData(EDITING, Boolean.FALSE);
 				User u = (User) rowItem.getModelObject();
-				provider.userJDBCTemplate.update(u.getId(),u.getName(), u.getSurname(), u.getPatronymic());
+				userJDBCTemplate.update(u.getId(),u.getName(), u.getSurname(), u.getPatronymic());
 				send(getPage(), Broadcast.BREADTH, rowItem);
 				target.add(rowItem);
 				onSave(target);
