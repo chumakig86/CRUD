@@ -31,7 +31,7 @@ public class HomePage extends WebPage
 	
 	private FeedbackPanel feedbackPanel;
 	Form<Void> searchform =null;
-	EditableListDataProvider provider = new EditableListDataProvider();
+
 
 	public HomePage(final PageParameters parameters)
 	{
@@ -69,17 +69,7 @@ public class HomePage extends WebPage
 		});
 		searchform= new Form<Void>("searchform");
 
-		final Model<String> model = new Model<String>() {
-			private String location ="";
-			public String getObject() {
-				return location;
-			}
 
-			public void setObject(String location) {
-				this.location=location;
-			}
-
-		};
 
 		final TextField<String> code = new TextField("searchname",new Model<String>(""));
 
@@ -93,7 +83,7 @@ public class HomePage extends WebPage
 				if (target!=null)
 				{
 
-					String search=form.getRequest().getRequestParameters().getParameterValue("searchname").toString();
+
 
 
 				}
@@ -105,15 +95,7 @@ public class HomePage extends WebPage
 		searchform.add(ab);
 		add(searchform);
     }
-	private String getLocation(Integer cyCode)
-	{
 
-		HashMap<Integer,String> locations=new HashMap<Integer, String>();
-		locations.put(1, "USA");
-		locations.put(61,"Australia");
-		locations.put(91, "India");
-		return locations.get(cyCode);
-	}
 
 	private List<AbstractEditablePropertyColumn<User, String>> getColumns()
 	{
@@ -124,10 +106,7 @@ public class HomePage extends WebPage
 		return columns;
 	}
 
-	private List<User> getUsers()
-	{
-		return provider.getData();
-	}
+
 	@Override
 	protected void onInitialize() {
 		super.onInitialize();
