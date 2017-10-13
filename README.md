@@ -1,5 +1,5 @@
 # CRUD
-Simple crud application using apache wicket framework.
+Wicket + Spring JDBC + MySQL CRUD application. Test task to one company.
 
 Prerequariments: tomcat, maven, MySQL installed.
 
